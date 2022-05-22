@@ -40,5 +40,12 @@ export type Video = {
 
 export type StoreState = {
   videos: Array<Video>,
-  currentVideo: string | undefined
+  currentVideo: string | undefined,
+  currentTab: Tab,
+  favVideos: Array<Video>,
+}
+
+export enum Tab {
+  VIDEOS = 'videos',
+  FAV = 'fav'
 }

@@ -5,14 +5,14 @@
   import YoutubeVideo from "./YoutubeVideo.vue";
 
   const store = useStore<StoreState>();
-  const videos = computed(() => {
-    return store.state.videos;
+  const favVideos = computed(() => {
+    return store.state.favVideos;
   })
 </script>
 <template>
 <div class="w-full">
-  <h1 class="title">Resultados de busqueda</h1>
-  <YoutubeVideo v-for="video in videos" :video="video" />
+  <h1 class="title">Mis videos favoritos</h1>
+  <YoutubeVideo v-for="video in favVideos" :video="video" />
 </div>
 </template>
 

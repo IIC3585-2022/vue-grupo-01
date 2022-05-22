@@ -7,19 +7,25 @@ import Videos from "./components/Videos.vue"
 import ShowVideo from "./components/ShowVideo.vue"
 import { reactive, ref, computed } from 'vue'
 import { useStore } from "vuex";
-import { StoreState } from "./StoreState";
+import { StoreState, Tab } from "./StoreState";
+import FavVideos from "./components/FavVideos.vue";
 
 const store = useStore<StoreState>();
 
 const currentVideo = computed(() => {
   return store.state.currentVideo
 })
+
+const currentTab = computed(() => {
+  return store.state.currentTab
+})
 </script>
 
 <template>
 <Search />
 <div class="centered">
-  <Videos v-if="currentVideo === undefined"/>
+  <Videos v-if="currentVideo === undefined && currentTab === Tab.VIDEOS"/>
+  <FavVideos v-if="currentVideo === undefined && currentTab === Tab.FAV" />
   <ShowVideo v-if="currentVideo !== undefined"/>
 </div>
 </template>

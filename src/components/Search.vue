@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { ref } from "vue";
   import { useStore } from "vuex";
-  import { StoreState } from "../StoreState";
+  import { StoreState, Tab } from "../StoreState";
 
   const searchQuery = ref("");
 
@@ -11,16 +11,19 @@
     const result = await fetch(`https://www.googleapis.com/youtube/v3/search?q=${query}&part=snippet&maxResults=50&key=AIzaSyA-tvEokrKF-vdJuqA-MXucQclYYiivAXI`)
     const response = await result.json();
     store.commit("SET_VIDEOS", response.items);
+    store.commit("CHANGE_TAB", Tab.VIDEOS);
     store.commit("CHANGE_VIDEO", undefined);
   }
 
   function search() {
     if(searchQuery.value) {
-      const videos = searchYoutube(searchQuery.value);
+      searchYoutube(searchQuery.value);
+      searchQuery.value = ''
     }
   }
   function back() {
     store.commit("SET_VIDEOS", []);
+    store.commit("CHANGE_TAB", Tab.FAV);
     store.commit("CHANGE_VIDEO", undefined);
   }
 </script>
@@ -34,9 +37,12 @@
   </div> 
   <div class="right flex">
     <div class="search-input" >
-    <input v-model="searchQuery" class="no-display" placeholder="Buscar" />
+    <input v-model="searchQuery" class="no-display" @keyup.enter="search" placeholder="Buscar" />
     </div>
     <button @click="search" class="search-button">Buscar</button>
+  </div>
+   <div class="flex">
+    <button @click="back" class="fav-button">Ver mis videos favoritos</button>
   </div>
 </div>
 
@@ -105,6 +111,17 @@ button.search-button {
   border: 0;
   border-radius: 0;
   background-color: #323232;
+  color: #ffffff;
+  cursor: pointer;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+button.fav-button {
+  outline: none;
+  border: 0;
+  border-radius: 0;
+  background-color: #ff0000;
   color: #ffffff;
   cursor: pointer;
   padding-top: 0;
