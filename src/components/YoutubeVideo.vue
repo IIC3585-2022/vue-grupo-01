@@ -4,20 +4,22 @@
   import { StoreState, Video, Tab } from '../StoreState';
   const props = defineProps<{video: Video}>()
   const store = useStore<StoreState>();
+
   function showVideo() {
-    store.commit("CHANGE_VIDEO", props.video.id.videoId)
+    store.dispatch('showVideo', props.video.id.videoId);
   }
   function addFavVideo(e: MouseEvent) {
     e.stopPropagation()
-    store.commit("ADD_FAV_VIDEO", props.video)
+    store.dispatch('addFavVideo', props.video);
   }
   function deleteFavVideo(e: MouseEvent) {
     e.stopPropagation()
-    store.commit("DELETE_FAV_VIDEO", props.video)
+    store.dispatch('deleteFavVideo', props.video);
   }
   const favVideos = computed(() => {
     return store.state.favVideos;
   })
+
 </script>
 
 <template>

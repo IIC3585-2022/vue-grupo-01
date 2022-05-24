@@ -1,30 +1,20 @@
 <script setup lang="ts">
   import { ref } from "vue";
-  import { useStore } from "vuex";
+  import { useStore , mapActions} from "vuex";
   import { StoreState, Tab } from "../StoreState";
 
   const searchQuery = ref("");
 
   const store = useStore<StoreState>();
 
-  async function searchYoutube(query: string) {
-    const result = await fetch(`https://www.googleapis.com/youtube/v3/search?q=${query}&part=snippet&maxResults=50&key=AIzaSyA-tvEokrKF-vdJuqA-MXucQclYYiivAXI`)
-    const response = await result.json();
-    store.commit("SET_VIDEOS", response.items);
-    store.commit("CHANGE_TAB", Tab.VIDEOS);
-    store.commit("CHANGE_VIDEO", undefined);
-  }
-
   function search() {
     if(searchQuery.value) {
-      searchYoutube(searchQuery.value);
+      store.dispatch('searchYoutube', searchQuery.value);
       searchQuery.value = ''
     }
   }
   function back() {
-    store.commit("SET_VIDEOS", []);
-    store.commit("CHANGE_TAB", Tab.FAV);
-    store.commit("CHANGE_VIDEO", undefined);
+    store.dispatch('back');
   }
 </script>
 
